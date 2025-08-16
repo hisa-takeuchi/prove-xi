@@ -1,13 +1,6 @@
-'use client';
-
-import { MatchList } from '@/components/features/matches/MatchList';
+import { MatchListContainer } from '@/components/features/matches/MatchListContainer';
 
 export default function MatchesPage() {
-  const handlePredictClick = (matchId: string) => {
-    // TODO: Navigate to prediction page
-    console.log('Navigate to prediction for match:', matchId);
-  };
-
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -20,7 +13,7 @@ export default function MatchesPage() {
         </div>
 
         {/* Match List */}
-        <MatchList onPredictClick={handlePredictClick} />
+        <MatchListContainer />
       </div>
     </div>
   );
