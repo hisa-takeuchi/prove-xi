@@ -17,7 +17,8 @@ PROVEXIは、プロサッカーリーグのフォーメーション予想Webア�
 1. **実行ログの更新**: .claude/logsディレクトリの該当ファイルに実装内容・修正内容を記録
 2. **Next.js App Routerベストプラクティス確認**: ページコンポーネントの不必要な'use client'化を避ける
 3. **型チェック・リント実行**: `pnpm run type-check` および `pnpm run lint` の実行
-4. **コミット**: 適切なコミットメッセージでの変更記録
+4. **Storybook動作確認**: 新規UIコンポーネント作成時は `pnpm storybook` でStory作成・動作確認
+5. **コミット**: 適切なコミットメッセージでの変更記録
 
 ## アーキテクチャ
 
@@ -67,8 +68,10 @@ pnpm lint              # ESLint（自動修正付き）
 pnpm build             # プロダションビルド
 
 # 個別コマンド
-pnpm type-check        # TypeScript型チェック（追加予定）
-pnpm test              # テスト実行（追加予定）
+pnpm type-check        # TypeScript型チェック
+pnpm test              # テスト実行（Vitest - 追加予定）
+pnpm storybook         # Storybook開発サーバー
+pnpm build-storybook   # Storybookビルド
 ```
 
 ## テスト戦略
@@ -83,6 +86,35 @@ __tests__/
 ```
 
 テストを先に書き、テスト実行中のコンソール警告/エラーをゼロにします。
+
+## UI開発・デザインシステム
+
+### Storybook
+UIコンポーネントの開発・テスト・ドキュメント化にStorybookを使用します。
+
+**設定内容:**
+- **フレームワーク**: Next.js + Vite（高速ビルド）
+- **アドオン**: Accessibility (a11y)、Docs、Vitest統合
+- **対応機能**: レスポンシブ表示、アクセシビリティチェック、インタラクションテスト
+
+**Story作成指針:**
+1. **必須バリエーション**: 基本状態、エラー状態、ローディング状態
+2. **エッジケース**: 長いテキスト、空データ、極端な値
+3. **アクセシビリティ**: キーボード操作、スクリーンリーダー対応
+4. **レスポンシブ**: モバイル・タブレット・デスクトップ表示
+
+**ディレクトリ構造:**
+```
+src/components/
+├── ui/                   # 基本UIコンポーネント（shadcn/ui）
+├── features/            # 機能別コンポーネント
+│   └── matches/
+│       ├── MatchCard.tsx
+│       ├── MatchCard.stories.ts
+│       ├── MatchList.tsx
+│       └── MatchList.stories.ts
+└── layouts/             # レイアウトコンポーネント
+```
 
 ## 環境セットアップ
 
