@@ -6,7 +6,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "type-check": "tsc --noEmit",
+    "test": "echo 'Tests not yet configured'",
+    "test:unit": "echo 'Unit tests not yet configured'",
+    "test:integration": "echo 'Integration tests not yet configured'",
+    "test:e2e": "echo 'E2E tests not yet configured'"
   },
   "dependencies": {
     "react": "19.1.0",
