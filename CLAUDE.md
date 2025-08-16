@@ -47,15 +47,15 @@ src/
 
 ```bash
 # 開発
-npm run dev
+pnpm dev
 
 # 品質チェック（コミット前に実行）
-npm run lint              # ESLint（自動修正付き）
-npm run build             # プロダションビルド
+pnpm lint              # ESLint（自動修正付き）
+pnpm build             # プロダションビルド
 
 # 個別コマンド
-npm run type-check        # TypeScript型チェック（追加予定）
-npm run test              # テスト実行（追加予定）
+pnpm type-check        # TypeScript型チェック（追加予定）
+pnpm test              # テスト実行（追加予定）
 ```
 
 ## テスト戦略
@@ -153,7 +153,7 @@ Supabase（PostgreSQL）を使用し、以下の主要テーブルを持つ：
 1. ServerとClient Components間でクラスインスタンスを渡さない（プレーンオブジェクトにシリアライズ）
 2. `grep`や`find`コマンドを使わない - 代わりにGrep/Globツールを使用
 3. ファイルを書く前に必ず存在を確認（WriteよりEditを優先）
-4. コードをコミットする前に`npm run lint`を実行
+4. コードをコミットする前に`pnpm lint`を実行
 5. コンポーネントは小さく、単一責任に集中させる
 6. Supabase Authテストでは、常に`jsdom`環境を使用（`node`ではない）
 7. セッション汚染を防ぐためにサービスロールとユーザークライアントを分離

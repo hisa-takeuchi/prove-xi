@@ -149,10 +149,10 @@ jobs:
           node-version: '18'
       
       - name: Install dependencies
-        run: npm ci
+        run: pnpm install --frozen-lockfile
       
       - name: Build app
-        run: npm run build
+        run: pnpm build
       
       - name: Run Lighthouse CI
         run: |

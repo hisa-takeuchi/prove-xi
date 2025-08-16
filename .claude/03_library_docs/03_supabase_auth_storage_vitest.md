@@ -283,7 +283,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '18'
-          cache: 'npm'
+          cache: 'pnpm'
 
       - name: Install Supabase CLI
         uses: supabase/setup-cli@v1
@@ -298,7 +298,7 @@ jobs:
 
       # アプリケーションの依存関係をインストール
       - name: Install dependencies
-        run: npm install
+        run: pnpm install
 
       # ローカルSupabaseのURLとキーを環境変数に設定
       - name: Set up environment variables
@@ -311,7 +311,7 @@ jobs:
           echo "SUPABASE_DB_URL=$(jq -r .dbURL supabase_status.json)" >> $GITHUB_ENV
 
       - name: Run application tests (Jest, Playwright, etc.)
-        run: npm test
+        run: pnpm test
 
       - name: Run database tests (pgTAP)
         run: supabase test db
