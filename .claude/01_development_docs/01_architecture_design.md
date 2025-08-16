@@ -62,26 +62,25 @@ src/
 │   ├── api/                      # API Routes
 │   ├── globals.css
 │   ├── layout.tsx
-│   └── page.tsx
-├── lib/                          # 共通ライブラリ
-│   ├── application/              # Application Layer
-│   │   ├── use-cases/
-│   │   ├── services/
-│   │   └── dtos/
-│   ├── domain/                   # Domain Layer
-│   │   ├── entities/
-│   │   ├── value-objects/
-│   │   ├── services/
-│   │   └── repositories/
-│   ├── infrastructure/           # Infrastructure Layer
-│   │   ├── repositories/
-│   │   ├── external-apis/
-│   │   └── database/
-│   ├── presentation/             # Presentation Layer
-│   │   ├── components/
-│   │   ├── hooks/
-│   │   └── utils/
-│   └── shared/                   # 共通ユーティリティ
+│   └── page.tsx                         # 共通ライブラリ
+├── application/              # Application Layer
+│   ├── use-cases/
+│   ├── services/
+│   └── dtos/
+├── domain/                   # Domain Layer
+│   ├── entities/
+│   ├── value-objects/
+│   ├── services/
+│   └── repositories/
+├── infrastructure/           # Infrastructure Layer
+│   ├── repositories/
+│   ├── external-apis/
+│   └── database/
+├── presentation/             # Presentation Layer
+│   ├── components/
+│   ├── hooks/
+│   └── utils/
+├── shared/                   # 共通ユーティリティ
 ├── components/                   # UIコンポーネント
 │   ├── ui/                       # shadcn/ui components
 │   ├── features/                 # 機能別コンポーネント
