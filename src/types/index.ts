@@ -45,8 +45,10 @@ export interface Match {
   readonly kickoffTime: Date;
   readonly status: MatchStatus;
   readonly venue?: string;
-  readonly league: string;
+  readonly league: League;
   readonly season: string;
+  readonly predictionStatus: PredictionStatus;
+  readonly predictionDeadline: Date;
 }
 
 export interface Prediction {
@@ -86,6 +88,22 @@ export enum MatchStatus {
   FINISHED = 'FINISHED',
   POSTPONED = 'POSTPONED',
   CANCELLED = 'CANCELLED'
+}
+
+// Match Status for Prediction UI
+export enum PredictionStatus {
+  ACCEPTING = 'ACCEPTING',      // 予想受付中
+  CLOSED = 'CLOSED',           // 受付終了  
+  FINISHED = 'FINISHED'        // 結果確定
+}
+
+// League types
+export enum League {
+  PREMIER_LEAGUE = 'PREMIER_LEAGUE',
+  LA_LIGA = 'LA_LIGA',
+  BUNDESLIGA = 'BUNDESLIGA',
+  SERIE_A = 'SERIE_A',
+  LIGUE_1 = 'LIGUE_1'
 }
 
 export enum Position {
@@ -142,4 +160,18 @@ export interface UserStatsDto {
   readonly averagePoints: number;
   readonly rank: number;
   readonly currentStreak: number;
+}
+
+// Match List DTOs
+export interface GetMatchesQuery {
+  readonly league?: League;
+  readonly status?: PredictionStatus;
+  readonly limit?: number;
+  readonly offset?: number;
+}
+
+export interface MatchListResponse {
+  readonly matches: readonly Match[];
+  readonly total: number;
+  readonly hasMore: boolean;
 }
