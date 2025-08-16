@@ -22,7 +22,7 @@
 
 ## プロジェクト概要
 
-Appcadiaは個人開発者がアプリケーションを展示するためのWebプラットフォームです。コンセプトは「登録3分、マーケティング0分」- マーケティングの労力なしにSEOを通じてアプリが発見されるよう支援します。
+PROVEXIは、プロサッカーリーグのフォーメーション予想Webアプリケーションです。コンセプトは「戦術眼を証明せよ」- ユーザーが自らのサッカー知識と戦術眼をポイントとランキングで証明できるサービスです。
 
 ## アーキテクチャ
 
@@ -65,34 +65,34 @@ src/
 
 ```bash
 # 開発（Turbopack使用）
-npm run dev
+pnpm dev
 
 # 品質チェック（コミット前に実行）- 並列実行
-npm run check              # lint + format + type-check + 単体テスト
-npm run check:all         # check + 統合テスト + ビルド
+pnpm check              # lint + format + type-check + 単体テスト
+pnpm check:all         # check + 統合テスト + ビルド
 
 # 個別コマンド
-npm run lint              # ESLint（自動修正付き）
-npm run format            # Prettierフォーマット
-npm run type-check        # TypeScript型チェック
-npm run test              # Vitest単体テスト
-npm run test:integration  # 統合テスト
-npm run build             # プロダクションビルド
+pnpm lint              # ESLint（自動修正付き）
+pnpm format            # Prettierフォーマット
+pnpm type-check        # TypeScript型チェック
+pnpm test              # Vitest単体テスト
+pnpm test:integration  # 統合テスト
+pnpm build             # プロダクションビルド
 
 # E2Eテスト（低速、たまに実行）
-npm run test:e2e          # PlaywrightでE2Eテスト実行
-npm run test:e2e:ui       # UIモードでE2Eテスト実行
-npm run test:all          # 全テスト実行（単体 + 統合 + E2E）
+pnpm test:e2e          # PlaywrightでE2Eテスト実行
+pnpm test:e2e:ui       # UIモードでE2Eテスト実行
+pnpm test:all          # 全テスト実行（単体 + 統合 + E2E）
 
 # パフォーマンス監視
-npm run analyze           # バンドルサイズ分析
-npm run lighthouse        # Lighthouseパフォーマンステスト
-npm run performance:check # 完全なパフォーマンスチェック
+pnpm analyze           # バンドルサイズ分析
+pnpm lighthouse        # Lighthouseパフォーマンステスト
+pnpm performance:check # 完全なパフォーマンスチェック
 
 # データベースコマンド（Supabase CLI必須）
-npm run db:generate       # DBからTypeScript型を生成
-npm run db:migrate        # データベースにマイグレーションを適用
-npm run db:seed          # テストデータを投入
+pnpm db:generate       # DBからTypeScript型を生成
+pnpm db:migrate        # データベースにマイグレーションを適用
+pnpm db:seed          # テストデータを投入
 ```
 
 ## テスト戦略
@@ -189,7 +189,7 @@ Supabase（PostgreSQL）を使用し、以下の主要テーブルを持つ：
 1. ServerとClient Components間でクラスインスタンスを渡さない（プレーンオブジェクトにシリアライズ）
 2. `grep`や`find`コマンドを使わない - 代わりにGrep/Globツールを使用
 3. ファイルを書く前に必ず存在を確認（WriteよりEditを優先）
-4. コードをコミットする前に`npm run check`を実行
+4. コードをコミットする前に`pnpm check`を実行
 5. コンポーネントは小さく、単一責任に集中させる
 6. Supabase Authテストでは、常に`jsdom`環境を使用（`node`ではない）
 7. セッション汚染を防ぐためにサービスロールとユーザークライアントを分離
