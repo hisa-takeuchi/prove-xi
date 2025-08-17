@@ -1,5 +1,9 @@
 import type { Preview } from '@storybook/nextjs-vite'
 import "@/app/globals.css"
+import { initialize, mswLoader } from 'msw-storybook-addon'
+
+// MSW Storybook Addonを初期化
+initialize()
 
 const preview: Preview = {
   parameters: {
@@ -17,6 +21,7 @@ const preview: Preview = {
       test: 'todo'
     }
   },
+  loaders: [mswLoader],
 };
 
 export default preview;
