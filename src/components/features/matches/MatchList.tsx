@@ -46,7 +46,20 @@ export function MatchList({ initialMatches = [], onPredictClick }: MatchListProp
       }
 
       const response = await fetch(`/api/matches?${params.toString()}`);
-      const data: ApiResponse<MatchListResponse> = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+
+      const text = await response.text();
+      let data: ApiResponse<MatchListResponse>;
+      
+      try {
+        data = JSON.parse(text);
+      } catch (parseError) {
+        console.error('JSON parse error:', parseError, 'Response text:', text);
+        throw new Error('サーバーから無効なレスポンスを受信しました');
+      }
 
       if (data.success && data.data) {
         // Convert date strings back to Date objects
@@ -68,8 +81,18 @@ export function MatchList({ initialMatches = [], onPredictClick }: MatchListProp
   };
 
   useEffect(() => {
-    fetchMatches();
+    // initialMatchesが提供されていない場合のみAPIフェッチを実行
+    if (initialMatches.length === 0) {
+      fetchMatches();
+    }
   }, [selectedLeague, selectedStatus]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // initialMatchesが更新された場合の処理
+  useEffect(() => {
+    if (initialMatches.length > 0) {
+      setMatches(initialMatches);
+    }
+  }, [initialMatches]);
 
   if (error) {
     return (

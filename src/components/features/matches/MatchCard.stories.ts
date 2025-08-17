@@ -2,6 +2,9 @@ import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { MatchCard } from './MatchCard';
 import { Match, PredictionStatus, MatchStatus, League } from '@/types';
 
+// MatchCardはpropsベースのコンポーネントなので、MSWは不適切
+// 代わりに、MockMatchRepositoryと一貫性のあるサンプルデータを使用
+
 const meta = {
   title: 'Features/Matches/MatchCard',
   component: MatchCard,
