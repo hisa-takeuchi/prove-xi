@@ -1,5 +1,5 @@
 import { MatchRepository } from '@/domain/repositories/MatchRepository';
-import { Match, MatchId, League, PredictionStatus, GetMatchesQuery, MatchListResponse, MatchStatus } from '@/types';
+import { Match, MatchId, League, PredictionStatus, GetMatchesQuery, MatchListResponse, MatchStatus, MatchPrediction, LiveOdds } from '@/types';
 import { createMatch, calculatePredictionStatus } from '@/domain/entities/Match';
 import { createTeam } from '@/domain/entities/Team';
 
@@ -59,6 +59,92 @@ export class MockMatchRepository implements MatchRepository {
 
   async getSupportedLeagues(): Promise<League[]> {
     return [League.PREMIER_LEAGUE, League.LA_LIGA, League.BUNDESLIGA, League.SERIE_A, League.LIGUE_1];
+  }
+
+  // API-Football 2025年新機能対応メソッド
+
+  async getMatchPrediction(matchId: MatchId): Promise<MatchPrediction | null> {
+    const match = await this.findById(matchId);
+    if (!match) return null;
+
+    // モック予測データの生成
+    return {
+      fixtureId: matchId,
+      winner: {
+        id: Math.random() > 0.5 ? 1 : 2,
+        name: Math.random() > 0.5 ? match.homeTeam.name : match.awayTeam.name,
+        comment: 'Based on recent form and head-to-head record'
+      },
+      goals: {
+        home: (Math.random() * 3 + 1).toFixed(1),
+        away: (Math.random() * 3 + 1).toFixed(1)
+      },
+      advice: Math.random() > 0.5 ? 'Over 2.5 goals' : 'Under 2.5 goals',
+      percent: {
+        home: (Math.random() * 40 + 30).toFixed(0) + '%',
+        draw: (Math.random() * 30 + 20).toFixed(0) + '%',
+        away: (Math.random() * 40 + 30).toFixed(0) + '%'
+      },
+      comparison: {
+        form: {
+          home: (Math.random() * 100).toFixed(0) + '%',
+          away: (Math.random() * 100).toFixed(0) + '%'
+        },
+        att: {
+          home: (Math.random() * 100).toFixed(0) + '%',
+          away: (Math.random() * 100).toFixed(0) + '%'
+        },
+        def: {
+          home: (Math.random() * 100).toFixed(0) + '%',
+          away: (Math.random() * 100).toFixed(0) + '%'
+        },
+        goals: {
+          home: (Math.random() * 3 + 1).toFixed(1),
+          away: (Math.random() * 3 + 1).toFixed(1)
+        }
+      }
+    };
+  }
+
+  async getLiveOdds(matchId: MatchId): Promise<LiveOdds | null> {
+    const match = await this.findById(matchId);
+    if (!match || match.status !== MatchStatus.LIVE) return null;
+
+    // モックライブオッズデータの生成
+    return {
+      fixtureId: matchId,
+      bookmaker: {
+        id: 8,
+        name: 'Bet365'
+      },
+      bets: [
+        {
+          id: 1,
+          name: 'Match Winner',
+          values: [
+            { value: 'Home', odd: (Math.random() * 2 + 1).toFixed(2) },
+            { value: 'Draw', odd: (Math.random() * 2 + 2).toFixed(2) },
+            { value: 'Away', odd: (Math.random() * 2 + 1).toFixed(2) }
+          ]
+        },
+        {
+          id: 5,
+          name: 'Goals Over/Under',
+          values: [
+            { value: 'Over 2.5', odd: (Math.random() * 1 + 1.5).toFixed(2) },
+            { value: 'Under 2.5', odd: (Math.random() * 1 + 1.5).toFixed(2) }
+          ]
+        }
+      ],
+      updatedAt: new Date()
+    };
+  }
+
+  async getMultipleMatches(matchIds: MatchId[]): Promise<Match[]> {
+    const matches = await Promise.all(
+      matchIds.map(id => this.findById(id))
+    );
+    return matches.filter((match): match is Match => match !== null);
   }
 
   private generateMockMatches(): Match[] {
