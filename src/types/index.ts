@@ -45,8 +45,10 @@ export interface Match {
   readonly kickoffTime: Date;
   readonly status: MatchStatus;
   readonly venue?: string;
-  readonly league: string;
+  readonly league: League;
   readonly season: string;
+  readonly predictionStatus: PredictionStatus;
+  readonly predictionDeadline: Date;
 }
 
 export interface Prediction {
@@ -86,6 +88,22 @@ export enum MatchStatus {
   FINISHED = 'FINISHED',
   POSTPONED = 'POSTPONED',
   CANCELLED = 'CANCELLED'
+}
+
+// Match Status for Prediction UI
+export enum PredictionStatus {
+  ACCEPTING = 'ACCEPTING',      // 予想受付中
+  CLOSED = 'CLOSED',           // 受付終了  
+  FINISHED = 'FINISHED'        // 結果確定
+}
+
+// League types
+export enum League {
+  PREMIER_LEAGUE = 'PREMIER_LEAGUE',
+  LA_LIGA = 'LA_LIGA',
+  BUNDESLIGA = 'BUNDESLIGA',
+  SERIE_A = 'SERIE_A',
+  LIGUE_1 = 'LIGUE_1'
 }
 
 export enum Position {
@@ -142,4 +160,96 @@ export interface UserStatsDto {
   readonly averagePoints: number;
   readonly rank: number;
   readonly currentStreak: number;
+}
+
+// Match List DTOs
+export interface GetMatchesQuery {
+  readonly league?: League;
+  readonly status?: PredictionStatus;
+  readonly limit?: number;
+  readonly offset?: number;
+}
+
+export interface MatchListResponse {
+  readonly matches: readonly Match[];
+  readonly total: number;
+  readonly hasMore: boolean;
+}
+
+// API-Football 2025 新機能対応型定義
+
+// ライブオッズ関連
+export interface LiveOdds {
+  readonly fixtureId: MatchId;
+  readonly bookmaker: Bookmaker;
+  readonly bets: readonly Bet[];
+  readonly updatedAt: Date;
+}
+
+export interface Bookmaker {
+  readonly id: number;
+  readonly name: string;
+}
+
+export interface Bet {
+  readonly id: number;
+  readonly name: string;
+  readonly values: readonly BetValue[];
+}
+
+export interface BetValue {
+  readonly value: string;
+  readonly odd: string;
+}
+
+// AI予測関連
+export interface MatchPrediction {
+  readonly fixtureId: MatchId;
+  readonly winner: PredictionWinner;
+  readonly goals: GoalsPrediction;
+  readonly advice: string;
+  readonly percent: PredictionPercent;
+  readonly comparison: TeamComparison;
+}
+
+export interface PredictionWinner {
+  readonly id: number | null;
+  readonly name: string;
+  readonly comment: string;
+}
+
+export interface GoalsPrediction {
+  readonly home: string;
+  readonly away: string;
+}
+
+export interface PredictionPercent {
+  readonly home: string;
+  readonly draw: string;
+  readonly away: string;
+}
+
+export interface TeamComparison {
+  readonly form: ComparisonData;
+  readonly att: ComparisonData;
+  readonly def: ComparisonData;
+  readonly goals: ComparisonData;
+}
+
+export interface ComparisonData {
+  readonly home: string;
+  readonly away: string;
+}
+
+// API-Football レスポンス形式
+export interface ApiFootballResponse<T> {
+  readonly get: string;
+  readonly parameters: Record<string, unknown>;
+  readonly errors: readonly string[] | Record<string, string>;
+  readonly results: number;
+  readonly paging: {
+    readonly current: number;
+    readonly total: number;
+  };
+  readonly response: readonly T[];
 }
